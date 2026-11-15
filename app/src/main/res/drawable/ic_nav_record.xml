@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 카풀기록 메뉴 아이콘: Recored_selected.svg / Record_unselected.svg. 디자인 원본(128×128) 그대로. 색은 화면에서 tint로 입힌다(선택 #ECF4FE, 아니면 #A4A8AE). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="128dp"
+    android:height="128dp"
+    android:viewportWidth="128"
+    android:viewportHeight="128">
+    <path android:pathData="M41,20 h57 a10,10 0 0 1 10,10 v69 a10,10 0 0 1 -10,10 h-57 a10,10 0 0 1 -10,-10 v-69 a10,10 0 0 1 10,-10 z" android:strokeColor="#FFA4A8AE" android:strokeWidth="8" android:strokeLineCap="round" android:strokeLineJoin="round" />
+    <path android:pathData="M47,42h44M47,62h44M47,82h44" android:strokeColor="#FFA4A8AE" android:strokeWidth="8" android:strokeLineCap="round" android:strokeLineJoin="round" />
+    <path android:pathData="M24,30v8M24,49v8M24,68v8M24,87v8" android:strokeColor="#FFA4A8AE" android:strokeWidth="8" android:strokeLineCap="round" android:strokeLineJoin="round" />
+    <path android:pathData="M24,24c-5,0 -8,3 -8,8s3,8 8,8M24,43c-5,0 -8,3 -8,8s3,8 8,8M24,62c-5,0 -8,3 -8,8s3,8 8,8M24,81c-5,0 -8,3 -8,8s3,8 8,8" android:strokeColor="#FFA4A8AE" android:strokeWidth="8" android:strokeLineCap="round" android:strokeLineJoin="round" />
+</vector>

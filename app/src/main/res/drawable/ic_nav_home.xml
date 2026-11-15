@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 홈 메뉴 아이콘: Home_selected.svg / Home_unslescted.svg. 디자인 원본(128×128) 그대로. 색은 화면에서 tint로 입힌다(선택 #ECF4FE, 아니면 #A4A8AE). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="128dp"
+    android:height="128dp"
+    android:viewportWidth="128"
+    android:viewportHeight="128">
+    <path android:pathData="M20,59.5 L64,23 L108,59.5" android:strokeColor="#FFA4A8AE" android:strokeWidth="8" android:strokeLineCap="round" android:strokeLineJoin="round" />
+    <path android:pathData="M31,55 v48 h66 V55" android:strokeColor="#FFA4A8AE" android:strokeWidth="8" android:strokeLineCap="round" android:strokeLineJoin="round" />
+    <path android:pathData="M54,103 V75 h20 v28" android:strokeColor="#FFA4A8AE" android:strokeWidth="8" android:strokeLineCap="round" android:strokeLineJoin="round" />
+</vector>

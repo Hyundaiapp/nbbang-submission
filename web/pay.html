@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="noindex">
+<title>N빵~ 청구서</title>
+<!--
+  C-18 QR 청구서의 휴대폰 화면. 차 화면의 QR을 휴대폰 카메라로 찍으면 열린다.
+  청구 내용은 주소의 # 뒤(d=base64url JSON)에만 있다. # 뒤는 페이지 서버로 전송하지 않지만 브라우저 방문 기록과 공유한 URL에는 남을 수 있다.
+  배포: 이 파일을 공개 레포 Hyundaiapp/pay에 index.html로 올린다(GitHub Pages). tools/publish-pay.sh 참고.
+
+  JSON v1
+    t  제목(일시·목적지)              s  [{n: 이름, w: 금액}]  여러 명이면 내 이름을 눌러 고른다
+    r  [주행 정보·근거 한 줄]          c  [{n: 항목, w: 금액}]  (선택) 내 몫 내역. 한 명일 때만 보여 준다
+    g  (선택) 게임 결과 문구          p  {n: 예금주, a: "은행 계좌번호", l: https 송금 링크}
+
+  JSON v1의 선택 필드 확장 (없으면 기존 v1처럼 보인다)
+    m  모드: "carpool" | "trip"
+    gk 여행 모드에서 한 게임: "cup"(컵 돌리기) | "ladder"(사다리타기) | "dice"(주사위 굴리기) | "card"(카드 뽑기)
+    s[].x  1이면 게임에서 진 사람(많이 내는 사람). 여러 명 표시 가능
+           x가 하나도 없으면 여러 명 청구서에서 혼자 가장 많이 내는 사람을 진 사람으로 본다
+    e  (선택) N빵이 내는 1원 단위 끝전. 내역(c)의 합은 보낼 금액보다 이만큼 크다
+    예전 앱이 만든 QR도 읽는다: m "travel" = "trip", k(ladder|shell|card|dice) = gk(shell은 cup)
+  배경: 카풀이면 img/carpool.svg를 무작위 색으로, 여행이면 고른 사람이 진 사람일 때 img/<gk>.svg
+  배포할 때 img 폴더도 같이 올린다(tools/publish-pay.sh).
+-->
+<style>
+  :root {
+    --sky: #4DA3FF; --sky-soft: #EAF4FF; --yellow: #FFB800; --ink: #333B4D; --muted: #6B7487;
+    --gray: #E8EDF3; --bg: #F5F7FA; --card: #FFFFFF; --success: #22C55E; --gold: #D4AF37; --warn: #EF4444;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.5 -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif; }
+  main { max-width: 480px; margin: 0 auto; padding: 20px 16px 40px; }
+  header { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 4px; }
+  .brand { display: flex; align-items: center; }
+  .brand svg { display: block; width: 46px; height: 45px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin: -6px 0 16px; }
+  .tag { font-size: 13px; font-weight: 700; padding: 4px 10px; border-radius: 999px; background: var(--sky-soft); color: var(--sky); }
+  .tag.trip { background: #FFF4D6; color: #B8921A; }
+  .nbbang { display: inline-block; margin: 10px 0 0; padding: 8px 14px; border-radius: 12px; background: rgba(255, 255, 255, .22); font-size: 20px; font-weight: 800; }
+  .slogan { font-size: 13px; color: var(--muted); }
+  h1 { font-size: 20px; line-height: 1.35; margin: 8px 0 16px; word-break: keep-all; }
+  /* 배경 그림 층: 화면에 고정, 그림 전체가 보이게(contain), 남는 여백은 위로 */
+  #bg { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden;
+        background: no-repeat center bottom / contain; opacity: 0; transition: opacity .4s; }
+  #bg.on { opacity: .32; }
+  #bg svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  body[data-mode="carpool"] #bg.on { opacity: .5; }
+  @media (min-width: 600px) { #bg { background-size: min(520px, 80vw) auto; } #bg svg { left: 50%; width: min(520px, 80vw); transform: translateX(-50%); } }
+  body { transition: background-color .4s; }
+  .card { background: rgba(255, 255, 255, .92); border: 2px solid var(--gray); border-radius: 18px; padding: 16px; margin-bottom: 12px; }
+  .label { font-size: 14px; color: var(--muted); margin: 0 0 8px; }
+  .who { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; padding: 14px 16px; margin-top: 8px; border-radius: 14px; border: 2px solid var(--gray); background: var(--card); color: inherit; font: inherit; text-align: left; cursor: pointer; }
+  .who.me { border-color: var(--sky); background: var(--sky-soft); }
+  .who b { font-size: 18px; }
+  .who span { font-size: 18px; font-weight: 700; white-space: nowrap; }
+  .amount-card { background: var(--sky); border-color: var(--sky); color: #fff; }
+  .amount-card .label { color: rgba(255, 255, 255, .85); }
+  .amount { font-size: 38px; font-weight: 800; letter-spacing: -1px; line-height: 1.1; }
+  .rows { margin: 0; padding: 0; list-style: none; }
+  .rows li { display: flex; justify-content: space-between; gap: 12px; padding: 7px 0; border-top: 1px solid var(--gray); }
+  .rows li:first-child { border-top: 0; }
+  .rows .minus { color: var(--success); }
+  .notes { margin: 0; padding-left: 18px; color: var(--muted); }
+  .notes li { margin: 2px 0; }
+  .game { border-color: var(--gold); background: #FFFBEB; }
+  .game p { margin: 0; font-weight: 700; word-break: keep-all; }
+  .account { font-size: 18px; font-weight: 700; margin: 0; word-break: break-all; }
+  .holder { color: var(--muted); margin: 2px 0 0; }
+  .btn { display: block; width: 100%; min-height: 54px; padding: 14px; margin-top: 12px; border-radius: 14px; border: 0; font: inherit; font-size: 17px; font-weight: 700; text-align: center; text-decoration: none; cursor: pointer; }
+  .btn.primary { background: var(--sky); color: #fff; }
+  .btn.secondary { background: var(--card); color: var(--ink); border: 2px solid var(--gray); }
+  .btn.done { border-color: var(--success); color: var(--success); }
+  .btn.primary.done { background: var(--success); color: #fff; }
+  .copied { margin: 8px 0 0; padding: 10px 12px; border-radius: 10px; background: var(--bg); font-weight: 700; user-select: all; -webkit-user-select: all; }
+  .hint { color: var(--muted); font-size: 13px; margin: 8px 0 0; }
+  .empty { text-align: center; color: var(--muted); padding: 48px 0; }
+  footer { color: var(--muted); font-size: 12px; text-align: center; margin-top: 20px; }
+</style>
+</head>
+<body>
+<div id="bg" aria-hidden="true"></div>
+<main id="app">
+  <p class="empty">청구서를 여는 중이에요…</p>
+</main>
+<script>
+(function () {
+  "use strict";
+  var app = document.getElementById("app");
+
+  function el(tag, cls, text) {
+    var node = document.createElement(tag);
+    if (cls) node.className = cls;
+    if (text != null) node.textContent = String(text);
+    return node;
+  }
+  function won(n) { return Math.round(Number(n) || 0).toLocaleString("ko-KR") + "원"; }
+  function list(x) { return Array.isArray(x) ? x : []; }
+
+  // ── 모드·게임 배경 ──────────────────────────────────────────
+  var bg = document.getElementById("bg");
+  // 차 화면(C-12)과 같은 이름. 카드·주사위는 가장 높은 숫자가 걸린다(배경 그림도 그렇게 그렸다).
+  var GAMES = { cup: "컵 돌리기", ladder: "사다리타기", dice: "주사위 굴리기", card: "카드 뽑기" };
+  var MODES = { carpool: "카풀 정산", trip: "여행 정산" };
+  var OLD_GAMES = { shell: "cup", ladder: "ladder", card: "card", dice: "dice" };   // 예전 앱 QR의 k 값
+  // 머리말 로고: 둥근 테두리 없는 앱 아이콘(어플아이콘둥근테두리없앤버전.svg). 고정된 그림이라 innerHTML로 넣는다.
+  var LOGO = '<svg width="119" height="117" viewBox="0 0 119 117" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="119" height="117" fill="#F5F5F5"/><path d="M100.91 -14H17.0896C0.471552 -14 -13 -0.528448 -13 16.0896V99.9105C-13 116.528 0.471552 130 17.0896 130H100.91C117.528 130 131 116.528 131 99.9105V16.0896C131 -0.528448 117.528 -14 100.91 -14Z" fill="white"/><path d="M20 26.8L32.25 22H41V58H27V32.8L20 35.8V26.8Z" fill="#FFB800"/><path d="M61 63H70.4286L84.5714 84.3333V63H94V95H84.5714L70.4286 74.2593V95H61V63Z" fill="#FFB800"/><path d="M29 83L67 47" stroke-width="10" stroke-linecap="round" stroke="#4DA3FF"/><path d="M79.5 40C83.0899 40 86 37.3137 86 34C86 30.6863 83.0899 28 79.5 28C75.9101 28 73 30.6863 73 34C73 37.3137 75.9101 40 79.5 40Z" fill="#4DA3FF"/><path d="M4 28.6676V13.867C4 7.28901 7.2071 4 13.6213 4H26.8506" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" stroke="#4DA3FF"/><path d="M114.645 28.6676V13.867C114.645 7.28901 111.438 4 105.023 4H91.7942" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" stroke="#4DA3FF"/><path d="M4 87.8691V102.67C4 109.248 7.2071 112.537 13.6213 112.537H26.8506" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" stroke="#4DA3FF"/><path d="M114.645 87.8691V102.67C114.645 109.248 111.438 112.537 105.023 112.537H91.7942" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" stroke="#4DA3FF"/></svg>';
+
+  function readMode(data) {
+    var m = String(data.m || "").toLowerCase();
+    if (m === "carpool" || m === "c") return "carpool";
+    if (m === "trip" || m === "t" || m === "travel") return "trip";
+    return readGame(data) ? "trip" : "";          // m이 없어도 gk가 있으면 여행으로 본다
+  }
+  function readGame(data) {
+    var g = String(data.gk || OLD_GAMES[String(data.k || "").toLowerCase()] || "").toLowerCase();
+    return Object.prototype.hasOwnProperty.call(GAMES, g) ? g : "";
+  }
+  // 게임에서 진 사람: x 표시가 우선, 없으면 여러 명 중 혼자 가장 많이 내는 사람
+  function findLosers(people) {
+    var flagged = people.filter(function (p) { return p && (p.x === 1 || p.x === true || p.x === "1"); });
+    if (flagged.length || people.length < 2) return flagged;
+    var amounts = people.map(function (p) { return Number(p && p.w) || 0; });
+    var max = Math.max.apply(null, amounts);
+    var top = people.filter(function (p, i) { return amounts[i] === max; });
+    return max > 0 && top.length === 1 ? top : [];
+  }
+
+  // 청구서를 다시 그릴 때마다 바뀐다. 늦게 온 카풀 그림이 다른 청구서(#뒤가 바뀐 뒤)에 붙지 않게 한다.
+  var bgRound = 0;
+  function resetBg() {
+    bgRound += 1;
+    bg.className = ""; bg.textContent = ""; bg.style.backgroundImage = "";
+    document.body.removeAttribute("data-mode"); document.body.removeAttribute("data-game");
+    document.body.style.backgroundColor = "";
+  }
+  function showGameBg(game, on) {
+    if (on && game) { bg.style.backgroundImage = 'url("img/' + game + '.svg")'; bg.classList.add("on"); document.body.dataset.game = game; }
+    else { bg.classList.remove("on"); document.body.removeAttribute("data-game"); }
+  }
+  // 카풀: 그림을 화면에 직접 넣고 색 5개를 매번 무작위로 고른다(색상환에서 고르게 퍼지게)
+  function showCarpoolBg() {
+    var base = Math.random() * 360;
+    var hues = [0, 1, 2, 3, 4].map(function (i) { return (base + i * 72 + (Math.random() - 0.5) * 24 + 360) % 360; });
+    hues.sort(function () { return Math.random() - 0.5; });
+    hues.forEach(function (h, i) { bg.style.setProperty("--cp" + (i + 1), "hsl(" + h.toFixed(0) + ", 80%, 63%)"); });
+    document.body.style.backgroundColor = "hsl(" + base.toFixed(0) + ", 85%, 95%)";
+    var round = bgRound;
+    var still = function () { return round === bgRound; };
+    fetch("img/carpool.svg").then(function (r) { return r.ok ? r.text() : Promise.reject(); })
+      .then(function (svg) { if (still()) bg.innerHTML = svg; })                          // 같은 레포의 우리 파일
+      .catch(function () { if (still()) bg.style.backgroundImage = 'url("img/carpool.svg")'; })  // 실패하면 기본색 그림
+      .then(function () { if (still()) bg.classList.add("on"); });
+  }
+
+  function readData() {
+    var param = location.hash.replace(/^#/, "").split("&").filter(function (p) { return p.indexOf("d=") === 0; })[0];
+    if (!param) return null;
+    var b64 = param.slice(2).replace(/-/g, "+").replace(/_/g, "/");
+    while (b64.length % 4) b64 += "=";
+    var bytes = Uint8Array.from(atob(b64), function (c) { return c.charCodeAt(0); });
+    return JSON.parse(new TextDecoder("utf-8").decode(bytes));
+  }
+
+  function payLabel(p) { return p && p.n ? p.n + " 님이 보낼 금액" : "내가 보낼 금액"; }
+
+  function render(data) {
+    app.textContent = "";
+    resetBg();
+    var mode = readMode(data);
+    // 게임 이름(태그·게임 결과 제목)은 카풀 단건 정산에서 게임을 했어도 보여 준다. 게임 배경은 여행일 때만.
+    var game = readGame(data);
+    if (mode) document.body.dataset.mode = mode;
+    if (mode === "carpool") showCarpoolBg();
+    var head = el("header");
+    var brand = el("span", "brand");
+    brand.innerHTML = LOGO;
+    var mark = brand.firstElementChild;
+    if (mark) { mark.setAttribute("role", "img"); mark.setAttribute("aria-label", "N빵~"); }
+    head.appendChild(brand);
+    head.appendChild(el("span", "slogan", "함께 탄 만큼, 똑똑하게 N빵"));
+    app.appendChild(head);
+    app.appendChild(el("h1", null, data.t || "함께 탄 길 청구서"));
+
+    // 카풀·여행과 게임 종류(있으면)
+    var tags = el("div", "tags");
+    if (MODES[mode]) tags.appendChild(el("span", "tag " + mode, MODES[mode]));
+    if (game) tags.appendChild(el("span", "tag", GAMES[game]));
+    if (tags.children.length) app.appendChild(tags);
+
+    var people = list(data.s);
+    var payee = data.p || {};
+    var chosen = people.length === 1 ? people[0] : null;
+    var losers = findLosers(people);
+    var updateBg = function () { if (game && mode === "trip") showGameBg(game, losers.indexOf(chosen) !== -1); };
+    updateBg();
+
+    // 받을 금액
+    var amountCard = el("section", "card amount-card");
+    amountCard.setAttribute("aria-live", "polite");
+    var amountLabel = el("p", "label", chosen ? payLabel(chosen) : people.length ? "내 이름을 누르면 금액이 보여요" : "보낼 금액");
+    var amountValue = el("div", "amount", chosen ? won(chosen.w) : "-");
+    amountCard.appendChild(amountLabel);
+    amountCard.appendChild(amountValue);
+    // 1원 단위로 내리고 남은 돈은 N빵이 낸다(한 명짜리 청구서). 내역 합이 금액보다 이만큼 크다.
+    var leftover = Math.round(Number(data.e) || 0);
+    if (leftover > 0 && people.length === 1) amountCard.appendChild(el("p", "nbbang", won(leftover) + "은 N빵이 내요"));
+
+    if (people.length > 1) {
+      var pick = el("section", "card");
+      pick.appendChild(el("p", "label", "내 이름을 눌러 주세요"));
+      people.forEach(function (person, i) {
+        var row = el("button", "who");
+        row.type = "button";
+        row.appendChild(el("b", null, person.n || "동승자 " + (i + 1)));
+        row.appendChild(el("span", null, won(person.w)));
+        row.addEventListener("click", function () {
+          Array.prototype.forEach.call(pick.querySelectorAll(".who"), function (r) { r.classList.remove("me"); });
+          row.classList.add("me");
+          chosen = person;
+          amountLabel.textContent = payLabel(person);
+          amountValue.textContent = won(person.w);
+          updateBg();
+        });
+        pick.appendChild(row);
+      });
+      app.appendChild(pick);
+    }
+    app.appendChild(amountCard);
+    if (!people.length) amountCard.appendChild(el("p", "hint", "남은 금액이 없어요."));
+
+    // 내 몫 내역 (한 명짜리 청구서일 때)
+    var costs = list(data.c);
+    if (costs.length && people.length === 1) {
+      var costCard = el("section", "card");
+      costCard.appendChild(el("p", "label", "이렇게 나왔어요"));
+      var rows = el("ul", "rows");
+      costs.forEach(function (c) {
+        var li = el("li");
+        li.appendChild(el("span", null, c.n));
+        li.appendChild(el("span", Number(c.w) < 0 ? "minus" : null, (Number(c.w) > 0 && rows.children.length ? "+" : "") + won(c.w)));
+        rows.appendChild(li);
+      });
+      costCard.appendChild(rows);
+      app.appendChild(costCard);
+    }
+
+    // 게임 결과
+    if (data.g || game) {
+      var gameCard = el("section", "card game");
+      gameCard.appendChild(el("p", "label", game ? "게임 결과 · " + GAMES[game] : "게임 결과"));
+      gameCard.appendChild(el("p", null, data.g || "이번 청구는 " + GAMES[game] + " 결과예요"));
+      app.appendChild(gameCard);
+    }
+
+    // 주행 정보
+    var notes = list(data.r);
+    if (notes.length) {
+      var info = el("section", "card");
+      info.appendChild(el("p", "label", "주행 정보"));
+      var ul = el("ul", "notes");
+      notes.forEach(function (n) { ul.appendChild(el("li", null, n)); });
+      info.appendChild(ul);
+      app.appendChild(info);
+    }
+
+    // 보내기
+    var send = el("section", "card");
+    send.appendChild(el("p", "label", "받는 분"));
+    var link = String(payee.l || "");
+    var safeLink = /^https:\/\//i.test(link);
+    if (payee.a) {
+      send.appendChild(el("p", "account", payee.a));
+      if (payee.n) send.appendChild(el("p", "holder", "예금주 " + payee.n));
+    } else if (payee.n) {
+      send.appendChild(el("p", "account", payee.n));
+    }
+    if (safeLink) {
+      var a = el("a", "btn primary", "송금 앱 열기");
+      a.href = link;
+      a.rel = "noopener noreferrer";
+      send.appendChild(a);
+    }
+    if (payee.a) {
+      var copy = el("button", "btn " + (safeLink ? "secondary" : "primary"), "계좌번호 복사");
+      copy.type = "button";
+      copy.addEventListener("click", function () {
+        var number = String(payee.a).replace(/[^0-9-]/g, "") || String(payee.a);
+        var done = function () { copy.textContent = "복사했어요. 송금 앱에 붙여 넣어 주세요"; copy.classList.add("done"); };
+        // 복사가 안 되면 길게 눌러 고를 수 있는 칸에 번호를 보여 준다
+        var fallback = function () {
+          if (!send.querySelector(".copied")) copy.insertAdjacentElement("afterend", el("p", "copied", number));
+          copy.textContent = "아래 번호를 길게 눌러 복사해 주세요";
+        };
+        if (navigator.clipboard && window.isSecureContext) {
+          navigator.clipboard.writeText(number).then(done, fallback);
+        } else {
+          fallback();
+        }
+      });
+      send.appendChild(copy);
+      send.appendChild(el("p", "hint", "은행 앱이나 토스에서 위 계좌로 금액을 보내 주세요."));
+    }
+    if (!safeLink && !payee.a) send.appendChild(el("p", "hint", "운전자에게 받을 곳을 물어봐 주세요."));
+    app.appendChild(send);
+
+    app.appendChild(el("footer", null, "이 청구서는 주소 안에만 있어요. 서버에 저장하지 않아요."));
+  }
+
+  function start() {
+    try {
+      var data = readData();
+      if (!data || typeof data !== "object") { resetBg(); app.innerHTML = '<p class="empty">차 화면의 QR로 열어 주세요.</p>'; return; }
+      render(data);
+    } catch (e) {
+      resetBg();
+      app.innerHTML = '<p class="empty">청구서를 읽지 못했어요. QR을 다시 찍어 주세요.</p>';
+    }
+  }
+  start();
+  window.addEventListener("hashchange", start);   // 열려 있는 탭에서 # 뒤만 바뀌어도 새 청구서를 그린다
+})();
+</script>
+</body>
+</html>

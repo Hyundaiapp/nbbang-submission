@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-feature
+        android:name="android.hardware.type.automotive"
+        android:required="true" />
+
+    <!-- 기어(출발·도착), 누적 주행거리(구간 거리). -->
+    <uses-permission android:name="pleos.car.permission.CAR_DRIVE" />
+    <!-- 문 상태를 시연·화면 표시용으로 받는다. 주행은 사용자가 종료한다. -->
+    <uses-permission android:name="pleos.car.permission.CAR_DOORS" />
+    <!-- 배터리 에너지·전비, 연료·연비: 구간마다 실제로 쓴 에너지. -->
+    <uses-permission android:name="pleos.car.permission.CAR_ENERGY" />
+    <!-- 타고 내린 곳의 좌표. 같은 곳에서 타는 사람의 이름을 짐작하는 데만 쓴다. dangerous라 처음에 한 번 묻는다. -->
+    <uses-permission android:name="pleos.car.permission.FUSED_LOCATION" />
+    <!-- 목적지, 예상 통행료, 톨게이트 통과(TBT), 도착, 지금 주소. -->
+    <uses-permission android:name="pleos.car.permission.NAVI_ROUTE" />
+    <uses-permission android:name="pleos.car.permission.NAVI_ROUTE_SEARCH" />
+    <uses-permission android:name="pleos.car.permission.NAVI_CUSTOM_MAP" />
+    <uses-permission android:name="pleos.car.permission.TTS_SERVICE" />
+    <!-- 도착하면 내비 앞으로 정산 카드를 가져온다(백그라운드에서 화면 열기). 허락이 없으면 음성과 알림만 쓴다. -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <!-- 내비가 앞에 있는 동안에도 차 신호를 받는 기록 서비스. -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <!-- F-C07 당일 공시 평균 유가(오피넷). 하루 한 번만 부르고, 못 부르면 최근 값을 쓴다. -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:name=".RideApplication"
+        android:allowBackup="false"
+        android:icon="@drawable/ic_logo"
+        android:label="N빵~"
+        android:supportsRtl="false"
+        android:theme="@style/Theme.Ride">
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|uiMode">
+            <meta-data
+                android:name="distractionOptimized"
+                android:value="true" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <service
+            android:name=".platform.RideService"
+            android:exported="false"
+            android:foregroundServiceType="specialUse">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="Records rider changes entered by the user, distance and energy used during a shared ride while the navigation app is in front." />
+        </service>
+        <receiver
+            android:name=".platform.BootReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+            </intent-filter>
+        </receiver>
+        <!-- Gleo 음성 명령. 액션 이름은 assets/schema.json의 function name과 같다. 모두 화면 버튼으로도 된다. -->
+        <receiver
+            android:name=".platform.GleoActionReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="SETTLE_RIDE" />
+                <action android:name="TREAT_RIDE" />
+                <action android:name="ADD_RIDE_COST" />
+            </intent-filter>
+        </receiver>
+    </application>
+</manifest>

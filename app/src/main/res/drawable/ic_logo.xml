@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- N빵~ 주간 로고. 어플로고(주간).svg의 회색 배경을 제외한 벡터로, 홈 머리말과 앱 아이콘에 쓴다. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="144"
+    android:viewportHeight="144">
+    <path android:pathData="M113.91 0H30.0896C13.4716 0 0 13.4716 0 30.0896V113.91C0 130.528 13.4716 144 30.0896 144H113.91C130.528 144 144 130.528 144 113.91V30.0896C144 13.4716 130.528 0 113.91 0Z" android:fillColor="#FFFFFF" />
+    <path android:pathData="M33 40.8L45.25 36H54V72H40V46.8L33 49.8V40.8Z" android:fillColor="#FFB800" />
+    <path android:pathData="M74 77H83.4286L97.5714 98.3333V77H107V109H97.5714L83.4286 88.2593V109H74V77Z" android:fillColor="#FFB800" />
+    <path android:pathData="M42 97L80 61" android:strokeColor="#4DA3FF" android:strokeWidth="10" android:strokeLineCap="round" />
+    <path android:pathData="M92.5 54C96.0899 54 99 51.3137 99 48C99 44.6863 96.0899 42 92.5 42C88.9101 42 86 44.6863 86 48C86 51.3137 88.9101 54 92.5 54Z" android:fillColor="#4DA3FF" />
+    <path android:pathData="M17 42.6676V27.867C17 21.289 20.2071 18 26.6213 18H39.8506" android:strokeColor="#4DA3FF" android:strokeWidth="8" android:strokeLineCap="round" android:strokeLineJoin="round" />
+    <path android:pathData="M127.645 42.6676V27.867C127.645 21.289 124.438 18 118.023 18H104.794" android:strokeColor="#4DA3FF" android:strokeWidth="8" android:strokeLineCap="round" android:strokeLineJoin="round" />
+    <path android:pathData="M17 101.869V116.67C17 123.248 20.2071 126.537 26.6213 126.537H39.8506" android:strokeColor="#4DA3FF" android:strokeWidth="8" android:strokeLineCap="round" android:strokeLineJoin="round" />
+    <path android:pathData="M127.645 101.869V116.67C127.645 123.248 124.438 126.537 118.023 126.537H104.794" android:strokeColor="#4DA3FF" android:strokeWidth="8" android:strokeLineCap="round" android:strokeLineJoin="round" />
+</vector>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 청구현황 메뉴 아이콘: Paybill_selected.svg / Paybill_unselected.svg. 원본은 글자(Arial Bold 53, 자간 -3)라 같은 글꼴의 윤곽선으로 바꿨다. 디자인 원본(128×128) 그대로. 색은 화면에서 tint로 입힌다(선택 #ECF4FE, 아니면 #A4A8AE). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="128dp"
+    android:height="128dp"
+    android:viewportWidth="128"
+    android:viewportHeight="128">
+    <path android:fillColor="#FFA4A8AE" android:pathData="M46.62 83H39.35V55.59Q35.36 59.32 29.95 61.11V54.51Q32.8 53.58 36.14 50.97Q39.48 48.37 40.72 44.91H46.62ZM52.16 83.65 61.55 44.41H67.01L57.52 83.65ZM67.9 83V45.06H75.35L90.88 70.4V45.06H97.99V83H90.31L75.01 58.26V83Z" />
+</vector>

@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600" preserveAspectRatio="xMidYMax meet">
+  <!-- 카풀 배경: 친구 넷이 한 차에 타고 신나게 가는 모습.
+       색은 CSS 변수 cp1~cp5(앞에 하이픈 두 개)로 바뀐다. 페이지가 이 파일을 화면에 직접 넣고(인라인) 변수를 무작위로 채운다.
+       변수가 없으면 아래 기본색으로 보인다. -->
+  <style>
+    .cp1 { fill: var(--cp1, #FF8FAB); } .cp2 { fill: var(--cp2, #4DA3FF); } .cp3 { fill: var(--cp3, #FFB800); }
+    .cp4 { fill: var(--cp4, #7ED9B0); } .cp5 { fill: var(--cp5, #C9A7FF); }
+    .cps1 { stroke: var(--cp1, #FF8FAB); } .cps2 { stroke: var(--cp2, #4DA3FF); } .cps3 { stroke: var(--cp3, #FFB800); }
+    .cps4 { stroke: var(--cp4, #7ED9B0); } .cps5 { stroke: var(--cp5, #C9A7FF); }
+  </style>
+  <defs>
+    <g id="cp-head">
+      <circle r="20" stroke="#333B4D" stroke-width="4"/>
+      <circle cx="-7" cy="-2" r="3" fill="#333B4D"/><circle cx="7" cy="-2" r="3" fill="#333B4D"/>
+      <path d="M-7 7 q7 7 14 0" fill="none" stroke="#333B4D" stroke-width="3" stroke-linecap="round"/>
+      <ellipse cx="-13" cy="6" rx="4" ry="2.5" fill="#FF4F7B" opacity=".5"/><ellipse cx="13" cy="6" rx="4" ry="2.5" fill="#FF4F7B" opacity=".5"/>
+    </g>
+    <path id="cp-cloud" d="M-40 10 a18 18 0 0 1 10 -30 a24 24 0 0 1 44 -4 a16 16 0 0 1 26 18 a12 12 0 0 1 0 16z" fill="#fff" stroke="#333B4D" stroke-width="4" stroke-linejoin="round"/>
+    <path id="cp-heart" d="M0 10 C-16 -4 -16 -18 -6 -20 C0 -21 0 -15 0 -13 C0 -15 0 -21 6 -20 C16 -18 16 -4 0 10Z" stroke="#333B4D" stroke-width="3"/>
+  </defs>
+
+  <!-- 하늘 -->
+  <use href="#cp-cloud" x="80" y="80"/>
+  <use href="#cp-cloud" x="300" y="150" transform="scale(.8) translate(75 38)"/>
+  <circle cx="330" cy="70" r="26" class="cp3" stroke="#333B4D" stroke-width="4"/>
+  <g class="cps3" stroke-width="5" stroke-linecap="round"><path d="M330 28 v-12 M372 70 h12 M360 40 l9 -9 M300 40 l-9 -9"/></g>
+
+  <!-- 하트·음표 -->
+  <use href="#cp-heart" x="60" y="230" class="cp1" transform="rotate(-12 60 230)"/>
+  <use href="#cp-heart" x="340" y="270" class="cp5" transform="rotate(14 340 270)"/>
+  <use href="#cp-heart" x="210" y="210" class="cp4" transform="scale(.7) translate(90 90)"/>
+  <g class="cp2" stroke="#333B4D" stroke-width="3">
+    <path d="M130 300 v-36 l26 -6 v34" fill="none" class="cps2" stroke-width="5"/>
+    <circle cx="124" cy="302" r="8"/><circle cx="150" cy="294" r="8"/>
+  </g>
+  <g class="cp1" stroke="#333B4D" stroke-width="3">
+    <path d="M290 350 v-30" fill="none" class="cps1" stroke-width="5"/><circle cx="284" cy="352" r="8"/>
+  </g>
+
+  <!-- 차 -->
+  <g transform="translate(200 470)">
+    <!-- 창문 안 친구 넷 -->
+    <path d="M-110 -30 L-80 -92 Q-74 -104 -60 -104 L60 -104 Q74 -104 82 -92 L118 -30 Z" fill="#EAF4FF" stroke="#333B4D" stroke-width="5" stroke-linejoin="round"/>
+    <use href="#cp-head" x="-62" y="-58" class="cp1"/>
+    <use href="#cp-head" x="-16" y="-62" class="cp4"/>
+    <use href="#cp-head" x="30" y="-60" class="cp5"/>
+    <use href="#cp-head" x="76" y="-54" class="cp3"/>
+    <path d="M-34 -100 v68 M50 -100 v68" stroke="#333B4D" stroke-width="5"/>
+    <!-- 몸체 -->
+    <path d="M-160 -30 Q-162 -40 -150 -42 L150 -42 Q170 -40 172 -20 L176 30 Q176 44 162 44 L-150 44 Q-164 44 -164 30 Z" class="cp2" stroke="#333B4D" stroke-width="5" stroke-linejoin="round"/>
+    <path d="M-150 -6 H160" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".5"/>
+    <rect x="152" y="-16" width="22" height="16" rx="6" fill="#FFE27A" stroke="#333B4D" stroke-width="4"/>
+    <rect x="-166" y="-16" width="16" height="14" rx="5" fill="#EF4444" stroke="#333B4D" stroke-width="4"/>
+    <!-- 바퀴 -->
+    <g stroke="#333B4D" stroke-width="5">
+      <circle cx="-96" cy="44" r="28" fill="#333B4D"/><circle cx="-96" cy="44" r="11" fill="#E8EDF3"/>
+      <circle cx="104" cy="44" r="28" fill="#333B4D"/><circle cx="104" cy="44" r="11" fill="#E8EDF3"/>
+    </g>
+    <!-- 속도선 -->
+    <g class="cps4" stroke-width="6" stroke-linecap="round"><path d="M-186 -20 h-20 M-182 4 h-30 M-186 28 h-16"/></g>
+  </g>
+
+  <!-- 길 -->
+  <path d="M0 548 H400" stroke="#333B4D" stroke-width="5"/>
+  <g class="cps3" stroke-width="7" stroke-linecap="round"><path d="M20 574 h40 M110 574 h40 M200 574 h40 M290 574 h40 M380 574 h20"/></g>
+</svg>

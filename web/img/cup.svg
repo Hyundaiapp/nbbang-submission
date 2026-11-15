@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600" preserveAspectRatio="xMidYMax meet">
+  <!-- 컵돌리기(야바위) 독박 배경: 얼굴 달린 컵 셋, 비어 있는 컵 하나, 섞는 화살표 -->
+  <defs>
+    <g id="cup">
+      <path d="M-34 -2 L34 -2 L50 86 L-50 86 Z" fill="#FF8FAB" stroke="#333B4D" stroke-width="5" stroke-linejoin="round"/>
+      <rect x="-58" y="80" width="116" height="16" rx="8" fill="#FF6F94" stroke="#333B4D" stroke-width="5"/>
+      <rect x="-34" y="-12" width="68" height="14" rx="7" fill="#FFC2D1" stroke="#333B4D" stroke-width="5"/>
+      <path d="M-22 18 L-14 70" stroke="#fff" stroke-width="7" stroke-linecap="round" opacity=".55"/>
+    </g>
+    <g id="blush"><ellipse cx="-24" cy="56" rx="8" ry="5" fill="#FF4F7B" opacity=".45"/><ellipse cx="24" cy="56" rx="8" ry="5" fill="#FF4F7B" opacity=".45"/></g>
+  </defs>
+
+  <!-- 위쪽: 흩어진 별·물음표 -->
+  <g fill="#FFB800" stroke="#333B4D" stroke-width="3" stroke-linejoin="round">
+    <path d="M60 60 l8 16 18 3 -13 12 3 18 -16 -9 -16 9 3 -18 -13 -12 18 -3z"/>
+    <path d="M330 110 l6 12 13 2 -9 9 2 13 -12 -6 -12 6 2 -13 -9 -9 13 -2z"/>
+  </g>
+  <g font-family="Arial Rounded MT Bold, Arial, sans-serif" font-weight="900" fill="#4DA3FF" stroke="#333B4D" stroke-width="2.5">
+    <text x="230" y="70" font-size="44" transform="rotate(12 230 70)">?</text>
+    <text x="120" y="160" font-size="34" transform="rotate(-14 120 160)">?</text>
+    <text x="300" y="220" font-size="28" transform="rotate(8 300 220)">?</text>
+  </g>
+
+  <!-- 섞는 화살표 -->
+  <g fill="none" stroke="#4DA3FF" stroke-width="6" stroke-linecap="round" stroke-dasharray="2 14">
+    <path d="M70 330 Q200 250 330 330"/>
+    <path d="M330 520 Q200 600 70 520"/>
+  </g>
+  <path d="M318 312 l16 20 -24 4" fill="none" stroke="#4DA3FF" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M82 538 l-16 -20 24 -4" fill="none" stroke="#4DA3FF" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- 왼쪽 컵: 메롱 -->
+  <g transform="translate(78 400) rotate(-6)">
+    <use href="#cup"/><use href="#blush"/>
+    <path d="M-18 40 q6 -8 12 0 M6 40 q6 -8 12 0" fill="none" stroke="#333B4D" stroke-width="4" stroke-linecap="round"/>
+    <path d="M-8 60 q8 8 16 0" fill="none" stroke="#333B4D" stroke-width="4" stroke-linecap="round"/>
+    <path d="M-2 64 q4 14 10 0" fill="#FF4F7B" stroke="#333B4D" stroke-width="3"/>
+  </g>
+
+  <!-- 가운데 컵: 들려 있고 아래가 텅 빔 (꽝) -->
+  <g transform="translate(200 360) rotate(4)">
+    <use href="#cup"/><use href="#blush"/>
+    <circle cx="-14" cy="42" r="5" fill="#333B4D"/><circle cx="14" cy="42" r="5" fill="#333B4D"/>
+    <ellipse cx="0" cy="64" rx="7" ry="9" fill="#333B4D"/>
+  </g>
+  <g stroke="#333B4D" stroke-width="4" stroke-linecap="round">
+    <path d="M150 430 l-12 -8 M250 430 l12 -8 M200 418 v-12" />
+  </g>
+  <ellipse cx="200" cy="520" rx="44" ry="8" fill="#333B4D" opacity=".12"/>
+  <text x="200" y="506" text-anchor="middle" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-weight="900" font-size="30" fill="#EF4444" stroke="#fff" stroke-width="5" paint-order="stroke">꽝!</text>
+
+  <!-- 오른쪽 컵: 공을 숨기고 시치미 -->
+  <g transform="translate(322 400) rotate(7)">
+    <use href="#cup"/><use href="#blush"/>
+    <path d="M-20 42 h12 M8 42 h12" stroke="#333B4D" stroke-width="4" stroke-linecap="round"/>
+    <path d="M-10 62 q10 -6 20 2" fill="none" stroke="#333B4D" stroke-width="4" stroke-linecap="round"/>
+    <path d="M40 22 q6 10 0 16 q-6 -6 0 -16z" fill="#4DA3FF" stroke="#333B4D" stroke-width="2.5"/>
+  </g>
+  <circle cx="352" cy="560" r="14" fill="#FFB800" stroke="#333B4D" stroke-width="4"/>
+  <path d="M345 554 q4 -4 8 -1" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+</svg>

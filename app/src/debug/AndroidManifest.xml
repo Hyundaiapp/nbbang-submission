@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <application>
+        <!-- 시연 도구(tools/demo.sh). 릴리스 빌드에는 없다. adb에서 부르려고 열어 둔다. -->
+        <receiver
+            android:name=".debug.DemoReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.nbbang.demo.ROUTE" />
+                <action android:name="com.nbbang.demo.TRAVEL" />
+                <action android:name="com.nbbang.demo.BOARD" />
+                <action android:name="com.nbbang.demo.ALIGHT" />
+                <action android:name="com.nbbang.demo.TOLLGATE" />
+                <action android:name="com.nbbang.demo.ARRIVE" />
+                <action android:name="com.nbbang.demo.ADDRESS" />
+                <action android:name="com.nbbang.demo.SEED" />
+                <action android:name="com.nbbang.demo.RESET" />
+                <action android:name="com.nbbang.demo.PAYEE" />
+                <action android:name="com.nbbang.demo.OFFICIAL" />
+                <action android:name="com.nbbang.demo.ECONOMY" />
+                <action android:name="com.nbbang.demo.ELAPSE" />
+            </intent-filter>
+        </receiver>
+    </application>
+</manifest>

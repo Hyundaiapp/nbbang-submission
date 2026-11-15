@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600" preserveAspectRatio="xMidYMax meet">
+  <!-- 주사위 굴리기 독박 배경(앱 규칙: 가장 큰 눈이 걸림): 1이 나온 주사위는 신나고, 6이 나온 주사위는 울상 -->
+  <defs>
+    <rect id="die" x="-40" y="-40" width="80" height="80" rx="18" stroke="#333B4D" stroke-width="5"/>
+    <circle id="pip" r="7" fill="#333B4D"/>
+  </defs>
+
+  <!-- 튕긴 자국 -->
+  <g fill="none" stroke="#4DA3FF" stroke-width="5" stroke-linecap="round" stroke-dasharray="2 13">
+    <path d="M40 140 Q90 60 150 120 Q200 170 250 110"/>
+    <path d="M360 300 Q320 360 270 340"/>
+  </g>
+
+  <!-- 1: 신남 -->
+  <g transform="translate(300 90) rotate(14)">
+    <use href="#die" fill="#fff"/>
+    <circle r="11" fill="#EF4444"/>
+  </g>
+  <g stroke="#FFB800" stroke-width="4" stroke-linecap="round"><path d="M352 44 l12 -10 M360 70 l16 -2 M330 30 l2 -14"/></g>
+
+  <!-- 5: 메롱 -->
+  <g transform="translate(90 250) rotate(-18)">
+    <use href="#die" fill="#7ED9B0"/>
+    <use href="#pip" x="-20" y="-20"/><use href="#pip" x="20" y="-20"/><use href="#pip" x="0" y="0"/>
+    <use href="#pip" x="-20" y="20"/><use href="#pip" x="20" y="20"/>
+  </g>
+
+  <!-- 4: 무표정 -->
+  <g transform="translate(320 400) rotate(-9)">
+    <use href="#die" fill="#C9A7FF"/>
+    <use href="#pip" x="-18" y="-18"/><use href="#pip" x="18" y="-18"/><use href="#pip" x="-18" y="18"/><use href="#pip" x="18" y="18"/>
+  </g>
+
+  <!-- 6: 독박 주인공, 커다랗고 울상(눈 여섯 개가 얼굴 가운데) -->
+  <g transform="translate(170 500) rotate(8)">
+    <rect x="-62" y="-62" width="124" height="124" rx="28" fill="#FFB800" stroke="#333B4D" stroke-width="6"/>
+    <g fill="#EF4444" stroke="#333B4D" stroke-width="2">
+      <circle cx="-15" cy="-24" r="5.5"/><circle cx="-15" cy="-7" r="5.5"/><circle cx="-15" cy="10" r="5.5"/>
+      <circle cx="15" cy="-24" r="5.5"/><circle cx="15" cy="-7" r="5.5"/><circle cx="15" cy="10" r="5.5"/>
+    </g>
+    <path d="M-34 -34 q8 -6 16 0 M18 -34 q8 -6 16 0" fill="none" stroke="#333B4D" stroke-width="4" stroke-linecap="round"/>
+    <path d="M-30 -26 q-4 14 0 22 M30 -26 q4 14 0 22" fill="none" stroke="#4DA3FF" stroke-width="5" stroke-linecap="round"/>
+    <path d="M-18 30 q18 -16 36 0" fill="none" stroke="#333B4D" stroke-width="5" stroke-linecap="round"/>
+    <ellipse cx="-38" cy="12" rx="9" ry="5" fill="#FF4F7B" opacity=".5"/><ellipse cx="38" cy="12" rx="9" ry="5" fill="#FF4F7B" opacity=".5"/>
+  </g>
+  <path d="M252 448 q10 -12 0 -22 q-10 10 0 22z" fill="#4DA3FF" stroke="#333B4D" stroke-width="2.5"/>
+  <text x="70" y="420" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-weight="900" font-size="26" fill="#EF4444" stroke="#fff" stroke-width="5" paint-order="stroke" transform="rotate(-10 70 420)">하필 6?!</text>
+  <ellipse cx="170" cy="582" rx="70" ry="9" fill="#333B4D" opacity=".12"/>
+</svg>

@@ -1,0 +1,65 @@
+{
+  "packageName": "com.nbbang",
+  "appDescription": "A shared-ride ledger. The car records who sat in which seat and for how far, measures the energy actually used, and splits only the real costs (electricity or fuel, tolls, parking) among the people who rode each part of the trip. It speaks the amounts on arrival and shows a QR code passengers can scan to pay.",
+  "version": "0.1.0",
+  "actionCalls": [
+    {
+      "type": "function",
+      "function": {
+        "name": "SETTLE_RIDE",
+        "description": "Settle the shared ride. Without a person, read out the current or last ride's cost split and show the payment QR code. With a person, read out how much that person still owes in this ledger and show their QR code. Use when the driver or a passenger asks to split the cost, settle up, or asks how much someone owes.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "person": {
+              "type": "string",
+              "description": "Name of the passenger to settle with, as the user said it. Omit it to settle the current or last ride."
+            }
+          },
+          "required": []
+        },
+        "component": "service"
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "TREAT_RIDE",
+        "description": "Record that the driver pays for the current or last ride, so nobody owes anything for it. Use when the driver says this ride is on them or they will treat everyone.",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "required": []
+        },
+        "component": "service"
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "ADD_RIDE_COST",
+        "description": "Add a cost such as parking to the current ride. Include the amount when adding a cost directly. When the user asks to enter an item name in the open expense form, supply the spoken name and include the amount only if stated.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "amount": {
+              "type": "integer",
+              "description": "The amount in Korean won, for example 5000."
+            },
+            "kind": {
+              "type": "string",
+              "enum": ["PARKING", "TOLL", "OTHER"],
+              "description": "What the cost is for. PARKING for parking fees, TOLL for a toll the navigation did not include, OTHER for anything else."
+            },
+            "name": {
+              "type": "string",
+              "description": "The item name spoken by the user for the open expense form, for example 간식."
+            }
+          },
+          "required": []
+        },
+        "component": "service"
+      }
+    }
+  ]
+}

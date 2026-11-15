@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  앱 아이콘(1/N, 주간). 디자인 원본: 어플아이콘둥근테두리없앤버전.svg(119×117).
+  Pleos 앱 목록은 아이콘을 네모 그대로 보여 줘서, 로고 안의 둥근 흰 테두리를 뺀 이 판을 쓴다(흰 바탕을 꽉 채움).
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="106dp"
+    android:viewportWidth="119"
+    android:viewportHeight="117">
+    <path android:pathData="M0,0H119V117H0Z" android:fillColor="#FFFFFFFF" />
+    <path android:pathData="M20 26.8L32.25 22H41V58H27V32.8L20 35.8V26.8Z" android:fillColor="#FFFFB800" />
+    <path android:pathData="M61 63H70.4286L84.5714 84.3333V63H94V95H84.5714L70.4286 74.2593V95H61V63Z" android:fillColor="#FFFFB800" />
+    <path android:pathData="M29 83L67 47" android:strokeWidth="10" android:strokeColor="#FF4DA3FF" android:strokeLineCap="round" android:strokeLineJoin="round" />
+    <path android:pathData="M79.5 40C83.0899 40 86 37.3137 86 34C86 30.6863 83.0899 28 79.5 28C75.9101 28 73 30.6863 73 34C73 37.3137 75.9101 40 79.5 40Z" android:fillColor="#FF4DA3FF" />
+    <path android:pathData="M4 28.6676V13.867C4 7.28901 7.2071 4 13.6213 4H26.8506" android:strokeWidth="8" android:strokeColor="#FF4DA3FF" android:strokeLineCap="round" android:strokeLineJoin="round" />
+    <path android:pathData="M114.645 28.6676V13.867C114.645 7.28901 111.438 4 105.023 4H91.7942" android:strokeWidth="8" android:strokeColor="#FF4DA3FF" android:strokeLineCap="round" android:strokeLineJoin="round" />
+    <path android:pathData="M4 87.8691V102.67C4 109.248 7.2071 112.537 13.6213 112.537H26.8506" android:strokeWidth="8" android:strokeColor="#FF4DA3FF" android:strokeLineCap="round" android:strokeLineJoin="round" />
+    <path android:pathData="M114.645 87.8691V102.67C114.645 109.248 111.438 112.537 105.023 112.537H91.7942" android:strokeWidth="8" android:strokeColor="#FF4DA3FF" android:strokeLineCap="round" android:strokeLineJoin="round" />
+</vector>

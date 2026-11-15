@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- C-12 게임 카드 아이콘, 컵 돌리기(C-14): MixedCup_selected/unselected.svg 원본 그대로. 색은 화면에서 tint로 입힌다(선택 #ECF4FE, 아니면 #A4A8AE). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+    <path
+        android:fillColor="#FFA4A8AE"
+        android:fillType="evenOdd"
+        android:pathData="M20.4 11H27.6Q28.99 11 29.1 12.38L30.5 30.38Q30.61 31.88 29.12 32Q29.06 32 29 32H19Q17.5 32 17.5 30.5Q17.5 30.44 17.5 30.38L18.9 12.38Q19.01 11 20.4 11ZM4.4 11H11.6Q12.99 11 13.1 12.38L14.5 30.38Q14.55 31.13 14.21 31.53Q13.86 31.94 13.12 32Q13.06 32 13 32H3Q1.5 32 1.5 30.5Q1.5 30.44 1.5 30.38L2.9 12.38Q3.01 11 4.4 11ZM36.4 11H43.6Q44.99 11 45.1 12.38L46.5 30.38Q46.61 31.88 45.12 32Q45.06 32 45 32H35Q33.5 32 33.5 30.5Q33.5 30.44 33.5 30.38L34.9 12.38Q35.01 11 36.4 11ZM18.8 33.4H29.2Q31 33.4 31 35.2Q31 37 29.2 37H18.8Q17 37 17 35.2Q17 33.4 18.8 33.4ZM34.8 33.4H45.2Q47 33.4 47 35.2Q47 37 45.2 37H34.8Q33 37 33 35.2Q33 33.4 34.8 33.4ZM2.8 33.4H13.2Q15 33.4 15 35.2Q15 37 13.2 37H2.8Q1 37 1 35.2Q1 33.4 2.8 33.4Z" />
+</vector>

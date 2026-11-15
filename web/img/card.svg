@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600" preserveAspectRatio="xMidYMax meet">
+  <!-- 카드 뽑기 독박 배경(앱 규칙: 가장 높은 숫자가 걸림, 카드는 1~13): 2(왕관)·9 사이에서 13을 뽑아 독박 -->
+  <defs>
+    <rect id="cd" x="-52" y="-74" width="104" height="148" rx="16" stroke="#333B4D" stroke-width="5"/>
+    <g id="heart"><path d="M0 6 C-10 -4 -10 -12 -4 -14 C0 -15 0 -11 0 -10 C0 -11 0 -15 4 -14 C10 -12 10 -4 0 6Z"/></g>
+  </defs>
+  <g font-family="Arial Rounded MT Bold, Arial, sans-serif" font-weight="900" text-anchor="middle">
+
+    <!-- 카드 뒷면들 (흩어진 덱) -->
+    <g transform="translate(70 90) rotate(-20)">
+      <use href="#cd" fill="#4DA3FF"/>
+      <rect x="-40" y="-62" width="80" height="124" rx="10" fill="none" stroke="#fff" stroke-width="3" stroke-dasharray="4 8"/>
+      <use href="#heart" fill="#fff" transform="scale(1.6)"/>
+    </g>
+    <g transform="translate(340 70) rotate(18)">
+      <use href="#cd" fill="#4DA3FF"/>
+      <rect x="-40" y="-62" width="80" height="124" rx="10" fill="none" stroke="#fff" stroke-width="3" stroke-dasharray="4 8"/>
+      <use href="#heart" fill="#fff" transform="scale(1.6)"/>
+    </g>
+
+    <!-- 2: 왕관(제일 안전) -->
+    <g transform="translate(300 330) rotate(10)">
+      <use href="#cd" fill="#fff"/>
+      <text y="22" font-size="56" fill="#4DA3FF">2</text>
+      <text x="-34" y="-48" font-size="18" fill="#4DA3FF">2</text>
+      <path d="M-30 -96 l12 -22 l18 16 l18 -16 l12 22 z" fill="#FFB800" stroke="#333B4D" stroke-width="4" stroke-linejoin="round"/>
+    </g>
+    <g stroke="#FFB800" stroke-width="4" stroke-linecap="round"><path d="M360 230 l12 -10 M372 256 l16 -2"/></g>
+
+    <!-- 9: 휴 다행 -->
+    <g transform="translate(100 330) rotate(-12)">
+      <use href="#cd" fill="#fff"/>
+      <text y="22" font-size="56" fill="#7ED9B0" stroke="#333B4D" stroke-width="1.5">9</text>
+      <text x="-34" y="-48" font-size="18" fill="#7ED9B0">9</text>
+    </g>
+
+    <!-- 13: 독박 주인공(제일 큰 숫자) -->
+    <g transform="translate(200 470) rotate(-4)">
+      <use href="#cd" fill="#FFF3D6" transform="scale(1.12)"/>
+      <text y="6" font-size="64" fill="#EF4444" stroke="#333B4D" stroke-width="1.5">13</text>
+      <text x="-38" y="-56" font-size="20" fill="#EF4444">13</text>
+      <circle cx="-18" cy="34" r="4.5" fill="#333B4D"/><circle cx="18" cy="34" r="4.5" fill="#333B4D"/>
+      <path d="M-10 56 q10 -10 20 0" fill="none" stroke="#333B4D" stroke-width="4" stroke-linecap="round"/>
+      <path d="M-18 40 q-3 10 0 16" fill="none" stroke="#4DA3FF" stroke-width="4" stroke-linecap="round"/>
+      <ellipse cx="-34" cy="46" rx="7" ry="4" fill="#FF4F7B" opacity=".5"/><ellipse cx="34" cy="46" rx="7" ry="4" fill="#FF4F7B" opacity=".5"/>
+    </g>
+    <path d="M276 420 q10 -12 0 -22 q-10 10 0 22z" fill="#4DA3FF" stroke="#333B4D" stroke-width="2.5"/>
+    <text x="200" y="584" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="24" fill="#EF4444" stroke="#fff" stroke-width="5" paint-order="stroke">제일 큰 숫자…</text>
+  </g>
+</svg>

@@ -1,0 +1,35 @@
+.gradle/
+build/
+local.properties
+.idea/
+.kotlin/
+*.iml
+captures/
+*.keystore
+*.jks
+~$*
+__pycache__/
+.venv/
+.env
+.env.*
+!.env.example
+.DS_Store
+
+# 검증·제출 산출물과 로컬 자격 증명
+*.apk
+*.aab
+*.apks
+*.log
+*.hprof
+key.properties
+keystore.properties
+submission-output/
+
+# 제출 APK 한 파일만 버전 관리한다
+!/apk/N빵_N빵_release.apk
+# 외부 release 서명 정보
+signing.properties
+*.signing.properties
+*.p12
+*.pfx
+*.pem

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- C-12 게임 카드 아이콘, 사다리타기(C-13): ladder_selected/unselected.svg(48×48, 11/14 19:47 판) 원본 그대로. 색은 화면에서 tint로 입힌다(선택 #ECF4FE, 아니면 #A4A8AE). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+    <path
+        android:fillColor="#FFA4A8AE"
+        android:fillType="evenOdd"
+        android:pathData="M17.25 6V11.2H30.75V6Q30.75 3.75 33 3.75Q35.25 3.75 35.25 6V42Q35.25 44.25 33 44.25Q30.75 44.25 30.75 42V38.8H17.25V42Q17.25 44.25 15 44.25Q12.75 44.25 12.75 42V6Q12.75 3.75 15 3.75Q17.25 3.75 17.25 6ZM30.75 27.2V22.8H17.25V27.2ZM30.75 35.2V30.8H17.25V35.2ZM30.75 19.2V14.8H17.25V19.2Z" />
+</vector>
